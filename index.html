@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Mon Jeu</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap"
+            rel="stylesheet">
+      <style>
+            body {
+                  font-family: 'Lato', sans-serif;
+                  /* Utilisation de la police Lato Fine pour le corps */
+            }
+
+            .container {
+                  position: relative;
+                  /* Position relative pour permettre le positionnement absolu des boutons */
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+            }
+
+            #newGameBtn {
+                  position: absolute;
+                  top: 8%;
+                  z-index: 1;
+            }
+
+            .divider {
+                  width: 100%;
+                  height: 2px;
+                  background-color: black;
+                  margin: 20px 0;
+            }
+
+            .joueurs {
+                  display: flex;
+                  justify-content: space-between;
+                  width: 100%;
+                  height: 95vh;
+                  position: relative;
+                  /* Position relative pour servir de référence pour le positionnement absolu des boutons */
+            }
+
+            .player {
+                  max-height: auto;
+                  width: 50%;
+                  /* Ajustez la largeur des joueurs selon vos préférences */
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-around;
+                  align-items: center;
+                  padding: 20px;
+            }
+
+            #player1 {
+                  padding-left: 10px;
+                  padding-top: 20px;
+                  padding-bottom: 10px;
+                  background-color: #F7F7F7;
+                  /* Couleur de fond pour le joueur 1 */
+            }
+
+            #player2 {
+                  padding-right: 10px;
+                  padding-top: 20px;
+                  padding-bottom: 10px;
+                  background-color: #ffffff;
+                  /* Couleur de fond pour le joueur 2 */
+            }
+
+            .globalScore {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+            }
+
+            .player .current {
+                  background-color: #EB4D4C;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  width: 20%;
+                  padding-bottom: 10px;
+                  margin-bottom: 20px;
+            }
+
+            h2 {
+                  font-size: 40px;
+                  font-weight: 100;
+                   /* Utiliser la variante la plus fine de la police Lato */
+                  text-transform: uppercase; /* Mettre en majuscules */
+            }
+
+            p {
+                  color: #8C2C23;
+            }
+
+            #globalScore1,
+            #globalScore2 {
+                  color: #A24332;
+                  font-size: 70px;
+            }
+
+            #roundScore2,
+            #roundScore1 {
+                  color: #ffffff;
+                  font-size: 20px;
+            }
+
+            #dice {
+                  /* Ajouter une ombre avec un décalage vertical de 4px et un flou de 8px */
+                  box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.159);
+                  z-index: 1;
+                  position: absolute;
+                  top: 35%;
+                  /* Alignement vertical au milieu de la div parente (container) */
+                  margin: 20px auto;
+                  width: 100px;
+                  /* Largeur du dé */
+                  height: 100px;
+                  /* Hauteur du dé */
+                  background-color: rgb(255, 255, 255);
+                  /* Couleur du dé */
+                  display: flex;
+                  /* Utiliser flexbox pour centrer le contenu */
+                  justify-content: center;
+                  /* Centrer horizontalement */
+                  align-items: center;
+                  /* Centrer verticalement */
+                  font-size: 2em;
+                  /* Taille du chiffre du dé */
+                  text-align: center;
+                  /* Alignement du texte au centre */
+                  line-height: 100px;
+                  /* Hauteur de ligne égale à la hauteur du conteneur pour centrer verticalement */
+            }
+
+            .button-group {
+                  background-color: rgba(245, 245, 220, 0);
+                  position: absolute;
+                  /* Position absolue pour placer les boutons par-dessus les joueurs */
+                  top: 77.4%;
+                  /* Alignement vertical au milieu de la div parente (container) */
+                  left: 50%;
+                  /* Alignement horizontal au centre de la div parente (container) */
+                  transform: translate(-50%, -50%);
+                  /* Correction pour centrer les boutons parfaitement */
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  width: 100%;
+                  z-index: 1;
+                  /* Assurez-vous que les boutons sont au-dessus des joueurs */
+            }
+
+            button {
+                  background-color: #ffffff00;
+                  border: none;
+                  font-size: 20px;
+                  font-weight: 100;
+                  margin: 20px 10px;
+                  color: #6d6d6d; /* Couleur du texte */
+            }
+      </style>
+</head>
+
+<body>
+      <div class="container">
+            <button id="newGameBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#A24332"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg> NEW GAME</button>
+            <div class="joueurs">
+                  <section class="player" id="player1">
+                        <div class="globalScore">
+                              <h2>PLAYER 1</h2>
+                              <span id="globalScore1">0</span>
+                        </div>
+                        <div class="current">
+                              <p>CURRENT</p>
+                              <span id="roundScore1">0</span>
+                        </div>
+                  </section>
+                  <section class="player" id="player2">
+                        <div class="globalScore">
+                              <h2>PLAYER 2</h2>
+                              <span id="globalScore2">0</span>
+                        </div>
+                        <div class="current">
+                              <p>CURRENT</p>
+                              <span id="roundScore2">0</span>
+                        </div>
+                  </section>
+            </div>
+            <div id="dice"></div>
+            <div class="button-group">
+                  <button id="rollDiceBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#A24332"><path d="M204-318q-22-38-33-78t-11-82q0-134 93-228t227-94h7l-64-64 56-56 160 160-160 160-56-56 64-64h-7q-100 0-170 70.5T240-478q0 26 6 51t18 49l-60 60ZM481-40 321-200l160-160 56 56-64 64h7q100 0 170-70.5T720-482q0-26-6-51t-18-49l60-60q22 38 33 78t11 82q0 134-93 228t-227 94h-7l64 64-56 56Z"/></svg> ROLL DICE</button>
+                  <button id="holdBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#A24332"><path d="M200-120q-33 0-56.5-23.5T120-200v-400q0-33 23.5-56.5T200-680h160v80H200v400h560v-400H600v-80h160q33 0 56.5 23.5T840-600v400q0 33-23.5 56.5T760-120H200Zm280-200L320-480l56-56 64 63v-487h80v487l64-63 56 56-160 160Z"/></svg> HOLD</button>
+            </div>
+      </div>
+      <script>
+            // Variables pour stocker les scores des joueurs
+            let scores, roundScore, activePlayer, gamePlaying;
+
+            // Initialisation du jeu
+            init();
+
+            // Événement pour le bouton "Lancer le dé"
+            document.getElementById('rollDiceBtn').addEventListener('click', function () {
+                  if (gamePlaying) {
+                        // Générer un nombre aléatoire pour le dé
+                        let dice = Math.floor(Math.random() * 6) + 1;
+
+                        // Afficher le chiffre correspondant au dé
+                        let diceDOM = document.getElementById('dice');
+                        diceDOM.style.display = 'block';
+                        diceDOM.textContent = dice; // Mettre à jour le contenu textuel avec le nombre du dé
+
+                        // Mettre à jour le score du round si le dé n'est pas 1
+                        if (dice !== 1) {
+                              // Ajouter le score du dé au score du round actuel
+                              roundScore += dice;
+                              document.querySelector('#roundScore' + activePlayer).textContent = roundScore;
+                        } else {
+                              // Passer au joueur suivant
+                              nextPlayer();
+                        }
+                  }
+            });
+
+
+            // Événement pour le bouton "Conserver"
+            document.getElementById('holdBtn').addEventListener('click', function () {
+                  if (gamePlaying) {
+                        // Ajouter le score du round au score global du joueur actif
+                        scores[activePlayer - 1] += roundScore; // Index du tableau commençant à 0
+
+                        // Mettre à jour l'affichage du score global du joueur
+                        document.getElementById('globalScore' + activePlayer).textContent = scores[activePlayer - 1];
+
+                        // Vérifier si le joueur a gagné
+                        if (scores[activePlayer - 1] >= 100) {
+                              document.getElementById('player' + activePlayer).querySelector('h2').textContent = 'Gagnant !';
+                              gamePlaying = false;
+                        } else {
+                              // Passer au joueur suivant
+                              nextPlayer();
+                        }
+                  }
+            });
+
+            // Fonction pour passer au joueur suivant
+            function nextPlayer() {
+                  // Passer au joueur suivant
+                  activePlayer === 1 ? activePlayer = 2 : activePlayer = 1;
+                  roundScore = 0;
+
+                  // Remettre à zéro le score du round
+                  document.getElementById('roundScore1').textContent = '0';
+                  document.getElementById('roundScore2').textContent = '0';
+
+                  // Changer la police et la couleur de fond en fonction du joueur actif
+                  document.getElementById('player1').style.fontWeight = activePlayer === 1 ? '1000' : '100';
+                  document.getElementById('player2').style.fontWeight = activePlayer === 2 ? '1000' : '100';
+                  document.getElementById('player1').style.backgroundColor = activePlayer === 1 ? '#F7F7F7' : '#ffffff';
+                  document.getElementById('player2').style.backgroundColor = activePlayer === 2 ? '#F7F7F7' : '#ffffff';
+            }
+
+            // Événement pour le bouton "Nouvelle Partie"
+            document.getElementById('newGameBtn').addEventListener('click', init);
+
+            // Initialisation du jeu
+            function init() {
+                  scores = [0, 0];
+                  roundScore = 0;
+                  activePlayer = 1;
+                  gamePlaying = true;
+
+                  // Masquer le dé au début de la partie
+                  document.getElementById('dice').style.display = '';
+
+                  // Réinitialiser les scores affichés des joueurs
+                  document.getElementById('roundScore1').textContent = '0';
+                  document.getElementById('roundScore2').textContent = '0';
+                  document.getElementById('globalScore1').textContent = '0';
+                  document.getElementById('globalScore2').textContent = '0';
+
+                  // Réinitialiser les noms des joueurs
+                  document.getElementById('player1').querySelector('h2').textContent = 'PLAYER 1';
+                  document.getElementById('player2').querySelector('h2').textContent = 'PLAYER 2';
+
+                  // Réinitialiser la police et la couleur de fond des joueurs
+                  document.getElementById('player1').style.fontWeight = '1000';
+                  document.getElementById('player2').style.fontWeight = '100';
+                  document.getElementById('player1').style.backgroundColor = '#F7F7F7';
+                  document.getElementById('player2').style.backgroundColor = '#ffffff';
+            }
+
+      </script>
+</body>
+
+</html>
